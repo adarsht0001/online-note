@@ -1,4 +1,5 @@
 "use client";
+
 import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 
@@ -22,6 +23,15 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(data));
     setUser(data);
   };
+  const getId = () => {
+    if (typeof window !== "undefined") {
+      const data = localStorage.getItem("user");
+      if (data) {
+        const user = JSON.parse(data);
+        return user._id;
+      }
+    }
+  };
 
   const logout = () => {
     localStorage.clear();
@@ -30,7 +40,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ getUser, updateUser, logout }}>
+    <UserContext.Provider value={{ getUser, updateUser, logout, getId }}>
       {children}
     </UserContext.Provider>
   );

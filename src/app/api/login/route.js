@@ -7,7 +7,6 @@ export const POST = async (request) => {
   const { email, password } = await request.json();
   await connect();
 
-  //   const user = await User.findOne({ email: email });
   const user = await User.findOne({ email: email }).select({
     _id: 1,
     email: 1,
