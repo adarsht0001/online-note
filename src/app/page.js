@@ -12,7 +12,7 @@ export default function Home() {
 
   const { getId, isLogged } = useContext(UserContext);
   if (!isLogged()) {
-    router.push("/login");
+    router?.push("/login");
   }
   const [notes, setNotes] = useState([]);
   const [refresh, setRefresh] = useState(false);
