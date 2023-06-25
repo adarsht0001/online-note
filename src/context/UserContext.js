@@ -46,6 +46,9 @@ export const UserProvider = ({ children }) => {
         const user = JSON.parse(data);
         return user.Logged;
       }
+      return false;
+    } else {
+      return false;
     }
   };
   return (

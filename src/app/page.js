@@ -21,7 +21,7 @@ export default function Home() {
     axios.get(`/api/notes/${user}`).then((res) => {
       setNotes(res.data);
     });
-  }, [refresh]);
+  }, [refresh, user]);
 
   const refetch = () => {
     setRefresh(!refresh);
