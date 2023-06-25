@@ -8,12 +8,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const router = useRouter();
-
   const { getId, isLogged } = useContext(UserContext);
-  if (!isLogged()) {
-    router?.push("/login");
-  }
   const [notes, setNotes] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const user = getId();
@@ -21,7 +16,7 @@ export default function Home() {
     axios.get(`/api/notes/${user}`).then((res) => {
       setNotes(res.data);
     });
-  }, [refresh, user]);
+  }, [refresh]);
 
   const refetch = () => {
     setRefresh(!refresh);
@@ -31,7 +26,11 @@ export default function Home() {
       <Navbar />
       <div className="container mx-auto max-w-screen-lg min-h-screen p-4 ">
         <div className="NotesList lg:grid grid-cols-3 gap-6 space-y-8 lg:space-y-0">
-          <Addnote refresh={refetch} />
+          {isLogged() ? (
+            <Addnote refresh={refetch} />
+          ) : (
+            <h2>Please Login First</h2>
+          )}
           {notes.map((i) => {
             return <Card key={i._id} data={i} refresh={refetch} />;
           })}
