@@ -27,7 +27,7 @@ export default function Home() {
         <div className="NotesList lg:grid grid-cols-3 gap-6 space-y-8 lg:space-y-0">
           <Addnote refresh={refetch} />
           {notes.map((i) => {
-            return <Card key={i._id} data={i} />;
+            return <Card key={i._id} data={i} refresh={refetch} />;
           })}
         </div>
       </div>

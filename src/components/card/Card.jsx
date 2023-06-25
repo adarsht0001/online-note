@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 
-function Card({ data }) {
+function Card({ data, refresh }) {
     const [edit, setEdit] = useState(true)
     const [notes, setNotes] = useState(data.note)
     const edited = {
@@ -9,7 +9,19 @@ function Card({ data }) {
     }
     const handleEdit = () => {
         axios.put(`/api/notes/${data._id}`, edited).then((res) => {
-            console.log(res);
+            if (res.status == 201) {
+                alert('note updated')
+                refresh()
+            }
+        })
+    }
+
+    const handleDelete = () => {
+        axios.delete(`/api/notes/${data._id}`).then((res) => {
+            if (res.status == 201) {
+                alert('note deleted')
+                refresh()
+            }
         })
     }
     return (
@@ -38,7 +50,8 @@ function Card({ data }) {
                             save
                         </button>
                     )}
-                <button type="button" className=" m-4 p-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border-2 border-blue-200 font-semibold text-blue-500 hover:text-white hover:bg-blue-500 hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                <button type="button" className=" m-4 p-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border-2 border-blue-200 font-semibold text-blue-500 hover:text-white hover:bg-blue-500 hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                    onClick={handleDelete}>
                     Delete
                 </button>
             </div>
