@@ -5,9 +5,15 @@ import Navbar from "@/components/navbar/Navbar";
 import Card from "@/components/card/Card";
 import Addnote from "@/components/addNote/Addnote";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const { getId } = useContext(UserContext);
+  const router = useRouter();
+
+  const { getId, isLogged } = useContext(UserContext);
+  if (!isLogged) {
+    router.push("/login");
+  }
   const [notes, setNotes] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const user = getId();

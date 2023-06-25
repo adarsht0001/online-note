@@ -39,8 +39,19 @@ export const UserProvider = ({ children }) => {
     setUser({});
   };
 
+  const isLogged = () => {
+    if (typeof window !== "undefined") {
+      const data = localStorage.getItem("user");
+      if (data) {
+        const user = JSON.parse(data);
+        return user.Logged;
+      }
+    }
+  };
   return (
-    <UserContext.Provider value={{ getUser, updateUser, logout, getId }}>
+    <UserContext.Provider
+      value={{ getUser, updateUser, logout, getId, isLogged }}
+    >
       {children}
     </UserContext.Provider>
   );
