@@ -2,9 +2,11 @@
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { UserContext } from '@/context/UserContext';
 
 export default function Login() {
+    const { updateUser } = useContext(UserContext)
     const [data, setData] = useState({})
     const [error, setError] = useState(false)
     const router = useRouter();
@@ -12,6 +14,7 @@ export default function Login() {
     const handleSubmit = (e) => {
         e.preventDefault()
         axios.post('/api/login', data).then((res) => {
+            updateUser(res.data)
             res.status === 201 && router.push("/")
         }).catch((err) => {
             setError(err.response.data)

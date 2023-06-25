@@ -7,11 +7,20 @@ export const POST = async (request) => {
   const { email, password } = await request.json();
   await connect();
 
-  const user = await User.findOne({ email: email });
+  //   const user = await User.findOne({ email: email });
+  const user = await User.findOne({ email: email }).select({
+    _id: 1,
+    email: 1,
+    password: 1,
+    name: 1,
+  });
   if (user) {
     const validPassword = await bcrypt.compare(password, user.password);
     if (validPassword) {
-      return new NextResponse("Login Successful", {
+      const userObject = user.toObject();
+      userObject.Logged = true;
+      delete userObject.password;
+      return new NextResponse(JSON.stringify(userObject), {
         status: 201,
       });
     } else {
