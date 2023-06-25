@@ -4,7 +4,7 @@ import { UserContext } from "../../context/UserContext";
 import { useContext } from "react";
 import axios from 'axios';
 
-function Addnote() {
+function Addnote({ refresh }) {
     const [note, setNote] = useState('')
     const { getUser } = useContext(UserContext);
     const user = getUser();
@@ -17,6 +17,7 @@ function Addnote() {
             if (res.status == 201) {
                 alert('note added')
                 setNote('')
+                refresh()
             }
         }).catch((err) => {
             console.log(err);

@@ -9,19 +9,23 @@ import axios from "axios";
 export default function Home() {
   const { getId } = useContext(UserContext);
   const [notes, setNotes] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const user = getId();
   useEffect(() => {
     axios.get(`/api/notes/${user}`).then((res) => {
-      console.log(res.data);
       setNotes(res.data);
     });
-  }, []);
+  }, [refresh]);
+
+  const refetch = () => {
+    setRefresh(!refresh);
+  };
   return (
     <>
       <Navbar />
       <div className="container mx-auto max-w-screen-lg min-h-screen p-4 ">
         <div className="NotesList lg:grid grid-cols-3 gap-6 space-y-8 lg:space-y-0">
-          <Addnote />
+          <Addnote refresh={refetch} />
           {notes.map((i) => {
             return <Card key={i._id} data={i} />;
           })}
